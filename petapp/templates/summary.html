@@ -1,0 +1,222 @@
+{% extends 'navbar.html' %}
+<html>
+
+<head>
+  <style>
+    body {
+      background: #eee
+    }
+
+    .ratings i {
+      font-size: 16px;
+      color: red
+    }
+
+    .strike-text {
+      color: red;
+      text-decoration: line-through
+    }
+
+    .product-image {
+      width: 100%
+    }
+
+    .dot {
+      height: 7px;
+      width: 7px;
+      margin-left: 6px;
+      margin-right: 6px;
+      margin-top: 3px;
+      background-color: blue;
+      border-radius: 50%;
+      display: inline-block
+    }
+
+    .spec-1 {
+      color: #938787;
+      font-size: 15px
+    }
+
+    h5 {
+      font-weight: 400
+    }
+
+    .para {
+      font-size: 16px
+    }
+
+    .gradient-custom {
+      /* fallback for old browsers */
+      background: #cd9cf2;
+
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: -webkit-linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1));
+
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1))
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  {% block myblock %}
+  <section class="h-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100" style="margin-right: 500px;">
+        <div class="col-lg-10 col-xl-8">
+          <div class="card" style="border-radius: 10px; width: 950px;">
+            <div class="card-header px-4 py-5">
+              <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #a8729a;">{{session}}</span>!</h5>
+            </div>
+            <div class="card-body p-4">
+
+              <div class="card shadow-0 border mb-4">
+                {% for i in cartobj%}
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img src="{{i.pid.image.url}}" class="img-fluid" alt="Phone">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0">name:{{i.pid.name}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">species:{{i.pid.species}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">age:{{i.pid.age}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">qty:{{i.quantity}}</p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p class="text-muted mb-0 small">amount:{{i.totalamount}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+
+                </div>
+                {%endfor%}
+              </div>
+
+            </div>
+
+            <div class="card-footer border-0 px-4 py-5"
+              style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+              <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">
+                <span class="h2 mb-0 ms-2">Total paid: {{totalbill}}</span>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  </div>
+  </div>
+  </div>
+
+  <div class="col-md-8 mb-4">
+    <div class="card mb-4">
+      <div class="card-header py-3">
+        <h5 class="mb-0 text-font text-uppercase">Delivery address</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{% url 'placeorder' %}">
+          {%csrf_token%}
+          <div class="row mb-4">
+            <div class="col">
+              <div data-mdb-input-init class="form-outline">
+                <label class="form-label" for="form11Example1">First name</label>
+                <input type="text" id="form11Example1" class="form-control" name="fn" />
+              </div>
+            </div>
+            <div class="col">
+              <div data-mdb-input-init class="form-outline">
+                <label class="form-label" for="form11Example2">Last name</label>
+                <input type="text" id="form11Example2" class="form-control" name="ln" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Text input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form11Example3">Address</label>
+            <input type="text" id="form11Example3" class="form-control" name="address" />
+          </div>
+
+          <!-- Text input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form11Example4">Phone no</label>
+            <input type="number" id="form11Example4" class="form-control" name="phoneno" />
+          </div>
+
+          <!-- Email input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form11Example5">City</label>
+            <input type="text" id="form11Example5" class="form-control" name="city" />
+          </div>
+
+          <!-- Number input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form11Example6">State</label>
+            <input type="text" id="form11Example6" class="form-control" name="state" />
+          </div>
+
+          <!-- Message input -->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="form11Example6">Pincode</label>
+            <input type="text" id="form11Example6" class="form-control" name="pincode" />
+          </div>
+
+          <!-- Checkbox -->
+          <!-- <div class="form-check d-flex justify-content-center mb-2">
+                          <label class="form-check-label" for="form11Example8">
+                            Create an account?
+                          </label>
+                          <input class="form-check-input me-2" type="checkbox" value="" id="form11Example8" checked />
+                        </div> -->
+          <!-- </form> -->
+      </div>
+
+    </div>
+    <!-- <form  method="POST" action="{% url 'placeorder' %}"> -->
+    <div class="text-center">
+      <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn button-order col-md-10">Place
+        order</button>
+    </div>
+    </form>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+  </section>
+  <!--Section: Design Block-->
+
+  </div>
+  {% endblock %}
+</body>
+
+</html>
